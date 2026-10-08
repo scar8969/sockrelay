@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}aioshadowsocks · users{% endblock %}
+{% block brand %}🌐 aioshadowsocks{% endblock %}
+{% block nav %}
+<a href="{{ url_for('index') }}"{% if request.endpoint == 'index' %} class="on"{% endif %}>Users</a>
+<a href="{{ url_for('ss.stats') }}">Stats JSON</a>
+<a href="{{ url_for('health') }}">Health</a>
+{% endblock %}
+{% block content %}
+<h1>Users</h1>
+<div class="grid">
+  <div class="stat"><div class="k">users</div><div class="v">{{ totals.count }}</div></div>
+  <div class="stat"><div class="k">enabled</div><div class="v">{{ totals.active }}</div></div>
+  <div class="stat"><div class="k">traffic counted</div><div class="v">{{ totals.bytes }} B</div></div>
+</div>
+<div class="panel">
+  <div class="hd">Add user</div>
+  <div class="bd">
+    <form method="post" action="{{ url_for('user_add') }}">
+      <div class="row">
+        <input name="port" type="number" placeholder="8388" required>
+        <input name="password" placeholder="password" required>
+        <input name="method" placeholder="aes-256-gcm">
+        <input name="traffic" type="number" min="0" placeholder="0">
+        <button class="btn" type="submit">Create</button>
+      </div>
+    </form>
+    <p class="note" style="margin-top:10px">No JSON required — the same row can be created with <span class="mono">POST {{ url_for('ss.add_user') }}</span>.</p>
+  </div>
+</div>
+<div class="panel">
+  <div class="hd">Registered users</div>
+  <div class="bd">
+  {% if users %}
+    <table>
+      <thead><tr><th>user</th><th>port</th><th>method</th><th>up</th><th>down</th><th>total</th><th>state</th></tr></thead>
+      <tbody>
+      {% for u in users %}
+        <tr>
+          <td class="mono">u{{ u.id }}</td>
+          <td class="mono">{{ u.port }}</td>
+          <td class="mono">{{ u.method }}</td>
+          <td class="mono">{{ u.up_bytes }}</td>
+          <td class="mono">{{ u.down_bytes }}</td>
+          <td class="mono">{{ u.total_bytes }}</td>
+          <td>{% if u.enable %}<span class="tag on">on</span>{% else %}<span class="tag no">off</span>{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="empty">No users stored yet. Create one above, or <span class="mono">python cli.py user add 8388 secret</span>.</div>
+  {% endif %}
+  </div>
+</div>
+{% endblock %}

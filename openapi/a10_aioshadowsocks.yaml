@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: "🚀 aioshadowsocks"
+  version: 0.1.0
+paths:
+  /api/users:
+    post:
+      summary: add user
+      responses:
+        "200":
+          description: ok
+  /api/stats:
+    get:
+      summary: stats
+      responses:
+        "200":
+          description: ok
