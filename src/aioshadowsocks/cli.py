@@ -1,5 +1,9 @@
-import argparse, asyncio, json
+import argparse
+import asyncio
+import json
+
 from . import paths
+
 
 def _db():
     """Open the SQLite session lazily.
@@ -8,7 +12,9 @@ def _db():
     server, not of `--help`: building the parser must work on a bare interpreter.
     """
     from flask import Flask
+
     from .models import db
+
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + str(paths.INSTANCE_DIR / "ss.db")
     db.init_app(app)
@@ -16,6 +22,7 @@ def _db():
     ctx.push()
     db.create_all()
     return db
+
 
 def cmd_run(args):
     # Imported here, not at module level: ss.server and ss.accounting reach
@@ -27,12 +34,14 @@ def cmd_run(args):
         cfg = json.load(f)
     counter = TrafficCounter()
     server = ShadowSocksServer(cfg.get("host", "0.0.0.0"), cfg.get("port", 8388), counter)
-    print(f"[ss] listening {cfg.get('host','0.0.0.0')}:{cfg.get('port',8388)}")
+    print(f"[ss] listening {cfg.get('host', '0.0.0.0')}:{cfg.get('port', 8388)}")
     asyncio.run(server.start())
     return 0
 
+
 def cmd_user_add(args):
     from .models import SSUser
+
     db = _db()
     u = SSUser(port=args.port, password=args.password, method=args.method)
     db.session.add(u)
@@ -40,13 +49,16 @@ def cmd_user_add(args):
     print(f"user {args.port} added")
     return 0
 
+
 def cmd_user_list(_args):
     from .models import SSUser
+
     db = _db()
     for u in SSUser.query.order_by(SSUser.port).all():
         state = "on" if u.enable else "off"
         print(f"{u.port:<6} {u.method:<22} {u.up_bytes + u.down_bytes:>12} bytes  {state}")
     return 0
+
 
 def main():
     p = argparse.ArgumentParser(prog="ss-server")

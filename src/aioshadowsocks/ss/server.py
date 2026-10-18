@@ -1,8 +1,9 @@
+import asyncio
+import socket
+import struct
+
 from .accounting import TrafficCounter
 
-import struct, socket
-
-import asyncio
 
 class ShadowSocksServer:
     def __init__(self, host: str, port: int, counter: TrafficCounter):
@@ -16,8 +17,6 @@ class ShadowSocksServer:
             await server.serve_forever()
 
     async def _handle_tcp(self, reader, writer):
-        from .users import find_user
-        from .ciphers import decrypt
         try:
             # header: [1 byte addr type][addr][2 byte port]
             head = await reader.readexactly(1)
@@ -32,22 +31,29 @@ class ShadowSocksServer:
                 raw = await reader.readexactly(16)
                 host = socket.inet_ntop(socket.AF_INET6, raw)
             else:
-                writer.close(); return
+                writer.close()
+                return
             port = struct.unpack(">H", await reader.readexactly(2))[0]
             # relay
             r_reader, r_writer = await asyncio.open_connection(host, port)
+
             async def pump(src, dst, up):
                 while True:
                     data = await src.read(65536)
-                    if not data: break
-                    dst.write(data); await dst.drain()
+                    if not data:
+                        break
+                    dst.write(data)
+                    await dst.drain()
                     self.counter.add(0, up, 0) if up else self.counter.add(0, 0, len(data))
+
             await asyncio.gather(pump(reader, r_writer, True), pump(r_reader, writer, False))
         except Exception:
             pass
         finally:
-            try: writer.close()
-            except Exception: pass
+            try:
+                writer.close()
+            except Exception:
+                pass
 
     async def _handle_udp(self, packet):
         pass

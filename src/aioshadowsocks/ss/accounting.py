@@ -1,5 +1,6 @@
 from ..models import SSUser, db
 
+
 class TrafficCounter:
     def __init__(self):
         self._buf = {}
