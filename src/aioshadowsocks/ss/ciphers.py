@@ -1,6 +1,8 @@
+from typing import Any
+
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM, ChaCha20Poly1305
 
-CIPHERS = {"aes-256-gcm": AESGCM, "chacha20-poly1305": ChaCha20Poly1305}
+CIPHERS: dict[str, Any] = {"aes-256-gcm": AESGCM, "chacha20-poly1305": ChaCha20Poly1305}
 
 
 def encrypt(method, key, nonce, data):
