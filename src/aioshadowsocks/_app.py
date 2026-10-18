@@ -1,6 +1,6 @@
 """Flask application for aioshadowsocks.
 
-Assembled from the project skeleton by _tools/build.py.  The wiring the skeleton
+Assembled from the project service by _tools/build.py.  The wiring the service
 cannot express lives here: an absolute template folder so render_template()
 resolves from any working directory, an instance folder that exists before
 Flask-SQLAlchemy resolves the relative sqlite path, and the dashboard route that

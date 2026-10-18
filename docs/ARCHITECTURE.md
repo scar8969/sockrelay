@@ -1,6 +1,6 @@
 # Architecture -- Aioshadowsocks
 
-A10 aioshadowsocks skeleton — async SS server. CLI-first.
+A10 aioshadowsocks service — async SS server. CLI-first.
 
 This document explains how the service is put together, why the seams sit where
 they do, and what breaks first under load.
@@ -9,7 +9,7 @@ they do, and what breaks first under load.
 
 ## 1. Context
 
-a10_aioshadowsocks is a single-process Flask service. It owns its own database (SQLite by
+sockrelay is a single-process Flask service. It owns its own database (SQLite by
 default, any SQLAlchemy-supported backend via `DATABASE_URL`) and is deployed
 behind a reverse proxy or an orchestrator.
 
@@ -73,7 +73,7 @@ flowchart TB
 | `ss/users.py` | module |
 | `templates/base.html` | asset |
 | `templates/index.html` | asset |
-| `tests/test_a10_aioshadowsocks.py` | module |
+| `tests/test_sockrelay.py` | module |
 | `_app.py` | asset |
 
 ---
@@ -136,7 +136,7 @@ writable lives under `/app`.
 
 | Table | Owner |
 | --- | --- |
-| `ss_users` | owned by `a10_aioshadowsocks` |
+| `ss_users` | owned by `sockrelay` |
 
 Tables are created by the application's own bootstrap on first use. No migration
 tool is wired in; the schema is additive, and the service tolerates a missing or

@@ -1,4 +1,4 @@
-"""A10 aioshadowsocks — tests. Run: pytest test_a10_aioshadowsocks.py"""
+"""A10 aioshadowsocks — tests. Run: pytest test_sockrelay.py"""
 import sys, os
 
 import pytest

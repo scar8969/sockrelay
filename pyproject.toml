@@ -3,13 +3,13 @@ requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "a10-aioshadowsocks"
+name = "sockrelay"
 version = "0.1.0"
-description = "A10 aioshadowsocks skeleton — async SS server. CLI-first."
+description = "Async Shadowsocks server with a CLI-first operator surface and per-user traffic accounting."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "project-skeletons maintainers" }]
+authors = [{ name = "Priyanshu Rout" }]
 keywords = ["flask", "service", "aioshadowsocks"]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -47,7 +47,7 @@ Documentation = "https://example.invalid/aioshadowsocks/docs"
 Issues = "https://example.invalid/aioshadowsocks/issues"
 
 [project.scripts]
-a10-aioshadowsocks = "aioshadowsocks.cli:main"
+sockrelay = "aioshadowsocks.cli:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
