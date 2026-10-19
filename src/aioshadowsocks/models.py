@@ -1,6 +1,6 @@
-from datetime import datetime
-
 from flask_sqlalchemy import SQLAlchemy
+
+from .clock import utcnow
 
 db = SQLAlchemy()
 
@@ -15,4 +15,4 @@ class SSUser(db.Model):
     down_bytes = db.Column(db.BigInteger, default=0)
     total_bytes = db.Column(db.BigInteger, default=0)
     enable = db.Column(db.Integer, default=1)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=utcnow)
