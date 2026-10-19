@@ -4,7 +4,7 @@ Every line below was produced by a command run against this exact checkout, on t
 
 | | |
 | --- | --- |
-| Generated | 2026-10-19 02:17 |
+| Generated | 2026-10-19 09:36 |
 | Python | 3.14.7 |
 | Platform | Windows 11 |
 
@@ -15,7 +15,7 @@ python -m pytest -q
 ```
 
 - exit code **0**
-- 24 passed in 1.08s
+- 24 passed in 1.03s
 
 ## Static gates
 
@@ -35,6 +35,20 @@ The application was imported through `wsgi.py` and each GET path declared in `op
 | 200 | `/api/stats` | 53 | application/json |
 
 1 paths walked, 0 of them raised or answered 5xx.
+
+## CLI
+
+```
+usage: ss-server [-h] {run,user} ...
+
+positional arguments:
+  {run,user}
+    run       start the asyncio shadowsocks server
+    user      manage ss_users rows
+
+options:
+  -h, --help  show this help message and exit
+```
 
 ## Screenshots
 
